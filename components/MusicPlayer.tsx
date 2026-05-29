@@ -8,15 +8,15 @@ import { cn } from "../lib/utils";
 
 const TRACKS = [
   {
-    title: "DanaMusic Relaxing Flute Meditation",
+    title: "DanaMusic • Relaxing Flute Meditation",
     src: "/DanaMusic_Relaxing_Flute_Meditation.mp3",
   },
   {
-    title: "Onetent Morning Relaxing",
+    title: "Onetent • Morning Relaxing",
     src: "/Onetent_Morning_Relaxing.mp3",
   },
   {
-    title: "SigmaMusicArt Meditation Yoga Relaxing",
+    title: "SigmaMusicArt • Meditation Yoga Relaxing",
     src: "/SigmaMusicArt_Meditation_Yoga_Relaxing.mp3",
   }
 ];
@@ -201,9 +201,9 @@ export default function MusicPlayer() {
             className="w-full max-w-sm sm:max-w-xl mx-auto"
           >
             <LiquidGlassPanel className="p-4 sm:px-6 sm:py-5 min-w-[340px] shadow-2xl">
-              <div className="flex flex-col gap-6 w-full">
+              <div className="flex flex-col gap-3 w-full">
                 {/* Track Info */}
-                <div className="text-center px-4 mt-2">
+                <div className="text-center px-4 mt-2 mb-3">
                   <h3 className="text-white/90 font-normal tracking-wide text-sm truncate" style={{ fontFamily: 'system-ui' }}>
                     {TRACKS[currentTrackIndex].title}
                   </h3>
