@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three/webgpu';
+import MusicPlayer from './MusicPlayer';
 import {
   Fn, uniform, float, vec3, instancedArray, instanceIndex, uv,
   positionGeometry, positionWorld, sin, cos, pow, smoothstep, mix,
@@ -117,7 +118,7 @@ export default function DigitalOasis() {
 		const focusDistanceU = uniform(31.83);
 		const focalLengthU = uniform(10.0);
 		const bokehScaleU = uniform(12.5);
-		let dofEnabled = true;
+		let dofEnabled = false;
 
 		let mouseFocusDist = 10.0;
 		let autoFocusSmoothed = 10.0;
@@ -311,8 +312,8 @@ export default function DigitalOasis() {
 		const sceneViewZ = scenePass.getViewZNode();
 		const dofOutput = dof(sceneColor, sceneViewZ, focusDistanceU, focalLengthU, bokehScaleU);
 
-		postProcessing.outputNode = isMobile ? sceneColor : dofOutput;
-		if (isMobile) dofEnabled = false;
+		postProcessing.outputNode = sceneColor;
+		dofEnabled = false;
 		postProcessing.needsUpdate = true;
 
 		function rebuildPipeline() {
@@ -354,24 +355,6 @@ export default function DigitalOasis() {
 			}, 100);
 		};
 		window.addEventListener('resize', onResize);
-
-		const settingsGear = document.getElementById('settingsGear');
-    const settingsPanel = document.getElementById('settingsPanel');
-		let settingsOpen = false;
-		function toggleSettings() {
-			settingsOpen = !settingsOpen;
-			if(settingsPanel) settingsPanel.classList.toggle('open', settingsOpen);
-			if(settingsGear) settingsGear.classList.toggle('active', settingsOpen);
-		}
-		if(settingsGear) settingsGear.addEventListener('click', toggleSettings);
-
-		const onKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 's' || e.key === 'S') {
-				if ((e.target as any).tagName === 'INPUT' || (e.target as any).tagName === 'TEXTAREA') return;
-				toggleSettings();
-			}
-		};
-		window.addEventListener('keydown', onKeyDown);
 
     // Initialized async WebGPU stuff
     (async () => {
@@ -440,7 +423,6 @@ export default function DigitalOasis() {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseleave', onMouseLeave);
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('keydown', onKeyDown);
       renderer.dispose();
       if (currentContainer && renderer.domElement && currentContainer.contains(renderer.domElement)) {
         currentContainer.removeChild(renderer.domElement);
@@ -451,16 +433,12 @@ export default function DigitalOasis() {
   return (
     <>
       <div ref={containerRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 0, width: '100vw', height: '100vh', pointerEvents: 'none' }} />
-      <button className="settings-gear" id="settingsGear" aria-label="Settings">
-		    <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-	    </button>
-      <div className="settings-panel" id="settingsPanel"></div>
-
       <div id="scroll-container">
         <section className="section hero" id="heroSection" data-stage="0">
-          <span className="hero-tag" data-reveal="true" data-delay="1">Rooted in Tomorrow</span>
-          <h1 data-reveal="true" data-delay="2">The<br/><em>Digital</em> Oasis</h1>
-          <p className="hero-sub" data-reveal="true" data-delay="3">Where technology meets the earth. A sanctuary for sustainable minds building a regenerative future.</p>
+          <span className="hero-tag" data-reveal="true" data-delay="1">Grass Harmony</span>
+          <div className="m-auto w-full flex justify-center pointer-events-auto z-50">
+            <MusicPlayer />
+          </div>
         </section>
       </div>
     </>
