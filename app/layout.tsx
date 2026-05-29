@@ -3,8 +3,8 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css'; // Global styles
 
 export const metadata: Metadata = {
-  title: 'Verdana — Digital Oasis',
-  description: 'Where technology meets the earth. A sanctuary for sustainable minds building a regenerative future.',
+  title: 'Grass Harmony',
+  description: 'Relaxing music and swaying grass in a peaceful atmosphere.',
 };
 
 const inter = Inter({
